@@ -7,4 +7,32 @@ Copyright (C) 2017 Alexeev Alexander <alexax66@gmail.com>
 
       http://www.apache.org/licenses/LICENSE-2.0
 
+## TWRP device tree for Galaxy A3 (2016 Exynos)
+
+To get started with LineageOS sources to build TWRP, you'll need to get
+familiar with [Git and Repo](http://source.android.com/download/using-repo).
+
+To initialize your local repository using the LineageOS trees to build TWRP, use a command like this:
+
+    repo init -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_lineageos.git -b twrp-14.1
+
+Add to `.repo/local_manifests/a3xeltexx.xml`:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <project path="device/samsung/a3xeltexx" name="alexax66/android_device_samsung_a3xeltexx" remote="github" revision="twrp" />
+</manifest>
+```
+
+Then to sync up:
+
+    repo sync
+
+Then to build:
+
+     cd <source-dir>; . build/envsetup.sh; lunch lineage_a3xeltexx-userdebug; mka recoveryimage
+
+
+Kernel sources are available at: https://github.com/alexax66/android_kernel_samsung_exynos7580-common/tree/cm-14.1
 
