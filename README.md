@@ -1,4 +1,5 @@
 Copyright (C) 2016-2017 Apavayan Sinha <info@apavayan.com>
+
 Copyright (C) 2017 Alexeev Alexander <alexax66@gmail.com>
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,6 +29,10 @@ Add to `.repo/local_manifests/a3xeltexx.xml`:
 Then to sync up:
 
     repo sync
+
+Then go to  <source-dir>/bootable/recovery and apply patch:
+
+    git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/68/22768/1 && git cherry-pick FETCH_HEAD
 
 Then to build:
 
