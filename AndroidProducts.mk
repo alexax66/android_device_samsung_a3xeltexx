@@ -1,3 +1,1 @@
-PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/full_a3xeltexx.mk \
-    $(LOCAL_DIR)/lineage.mk
+PRODUCT_MAKEFILES := $(LOCAL_DIR)/twrp_a3xeltexx.mk

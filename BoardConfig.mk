@@ -1,75 +1,91 @@
-#
-# Copyright (C) 2017 The LineageOS Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+USE_CAMERA_STUB := true
 
-# Inherit from Exynos7580-common
-include device/samsung/exynos7580-common/BoardConfigCommon.mk
+TARGET_NO_BOOTLOADER := true
+TARGET_BOOTLOADER_BOARD_NAME := universal7580
 
-TARGET_OTA_ASSERT_DEVICE := a3xelte,a3xeltexx
+# Platform
+TARGET_BOARD_PLATFORM := exynos5
+TARGET_BOARD_PLATFORM_GPU := mali-t720mp2
 
-DEVICE_PATH := device/samsung/a3xeltexx
+# Flags
+#TARGET_GLOBAL_CFLAGS +=
+#TARGET_GLOBAL_CPPFLAGS +=
+#COMMON_GLOBAL_CFLAGS +=
 
-# Include path
-TARGET_SPECIFIC_HEADER_PATH += $(DEVICE_PATH)/include
+# Architecture
+TARGET_ARCH := arm64
+TARGET_ARCH_VARIANT := armv8-a
+TARGET_CPU_ABI := arm64-v8a
+TARGET_CPU_ABI2 :=
+TARGET_CPU_VARIANT := generic
+TARGET_CPU_SMP := true
 
-# Audio
-#TARGET_AUDIOHAL_VARIANT := samsung
+TARGET_2ND_ARCH := arm
+TARGET_2ND_ARCH_VARIANT := armv7-a-neon
+TARGET_2ND_CPU_ABI := armeabi-v7a
+TARGET_2ND_CPU_ABI2 := armeabi
+TARGET_2ND_CPU_VARIANT := generic
 
-# Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
-
-# Hardware
-BOARD_HARDWARE_CLASS += $(DEVICE_PATH)/cmhw
-
-# Init
-TARGET_INIT_VENDOR_LIB := libinit_sec
-TARGET_UNIFIED_DEVICE := true
-
-# Kernel
-TARGET_KERNEL_CONFIG := lineageos_a3xelte_defconfig
-TARGET_KERNEL_SOURCE := kernel/samsung/a3xelte
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
+TARGET_USES_UNCOMPRESSED_KERNEL := true
 
-
-# Extracted with libbootimg
-#BOARD_KERNEL_SEPARATED_DT := true
-BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt $(DEVICE_PATH)/dt.img --board SRPOJ08A000KU
-#TARGET_CUSTOM_DTBTOOL := dtbhtoolExynos
+BOARD_KERNEL_CMDLINE := # Exynos doesn't take cmdline arguments from boot image
+BOARD_KERNEL_BASE := 0x10000000
+BOARD_KERNEL_PAGESIZE := 2048
+# 000RU = recovery kernel, 000KU = system kernel
+BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --board SRPOJ08A000RU
 
 # Partitions
 #BOARD_HAS_NO_MISC_PARTITION := false
-TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
-BOARD_BOOTIMAGE_PARTITION_SIZE :=0x002000000            # 33554432=32MB
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x002600000       # 39845888=38MB
-BOARD_CACHEIMAGE_PARTITION_SIZE := 0x00C800000          # 209715200=200MB
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 0x0BB800000         # 3145728000=3GB
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x2CF3FB000       # 0x2CF400000(12067012608) - 0x000004000(footer=16384)=11.2GB
+BOARD_BOOTIMAGE_PARTITION_SIZE :=0x002000000		# 33554432=32MB
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x002600000	# 39845888=38MB
+BOARD_CACHEIMAGE_PARTITION_SIZE := 0x00C800000		# 209715200=200MB
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 0x0BB800000		# 3145728000=3GB
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x2CF3FB000	# 0x2CF400000(12067012608) - 0x000004000(footer=16384)=12066992128=12GB
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 
-# Properties
-TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+TARGET_PREBUILT_KERNEL := device/samsung/a3xeltexx/Image
+TARGET_PREBUILT_DTB := device/samsung/a3xeltexx/dt.img
+BOARD_CUSTOM_BOOTIMG_MK :=  device/samsung/a3xeltexx/bootimg.mk
 
-# Recovery
-TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.samsungexynos7580
+# Use this flag if the board has a ext4 partition larger than 2gb
+BOARD_HAS_LARGE_FILESYSTEM := true
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
+BOARD_SUPPRESS_SECURE_ERASE := true
 
-# Radio
-BOARD_RIL_CLASS := ../../../$(DEVICE_PATH)/ril
-BOARD_MODEM_TYPE := tss310
+# TWRP specific build flags
+TARGET_RECOVERY_FSTAB := device/samsung/a3xeltexx/rootdir/etc/recovery.fstab
+TW_THEME := portrait_hdpi
+RECOVERY_SDCARD_ON_DATA := true
+BOARD_HAS_NO_REAL_SDCARD := true
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/13580000.usb/gadget/lun%d/file"
+TW_BRIGHTNESS_PATH := "/sys/devices/14800000.dsim/backlight/panel/brightness"
+TW_MAX_BRIGHTNESS := 255
+TW_DEFAULT_BRIGHTNESS := 162
+TW_NO_REBOOT_BOOTLOADER := true
+TW_HAS_DOWNLOAD_MODE := true
+TW_NO_EXFAT_FUSE := true
+TW_MTP_DEVICE := "/dev/mtp_usb"
+TW_EXCLUDE_SUPERSU := true
+#TW_USE_MINUI_CUSTOM_FONTS := true
 
-# inherit from the proprietary version
--include vendor/samsung/a3xeltexx/BoardConfigVendor.mk
+# Color fix
+TARGET_RECOVERY_PIXEL_FORMAT := "ABGR_8888"
+
+# Encryption support
+#TW_INCLUDE_CRYPTO := true
+#TW_INCLUDE_CRYPTO_SAMSUNG := true
+#TARGET_HW_DISK_ENCRYPTION := true
+
+# Debug flags
+#TWRP_INCLUDE_LOGCAT := true
+#TARGET_USES_LOGD := true
+
+# Init properties from bootloader version, ex. model info
+TARGET_UNIFIED_DEVICE := true
+TARGET_INIT_VENDOR_LIB := libinit_a3xelte
+TARGET_RECOVERY_DEVICE_MODULES := libinit_a3xelte
+TARGET_LIBINIT_DEFINES_FILE := device/samsung/a3xeltexx/init/init_a3xelte.cpp

@@ -15,12 +15,11 @@
 # limitations under the License.
 #
 
-LOCAL_PATH := $(call my-dir)
 
 ifneq ($(filter a3xeltexx,$(TARGET_DEVICE)),)
 
-include $(call all-subdir-makefiles,$(LOCAL_PATH))
+LOCAL_PATH := $(call my-dir)
 
-include $(CLEAR_VARS)
+include $(call all-subdir-makefiles,$(LOCAL_PATH))
 
 endif
