@@ -838,24 +838,6 @@ service vcsFPService /system/bin/vcsFPService
     user system
     group system
 
-# Blowfish tzdaemon
-service tz_service /system/bin/tzdaemon
-    class core
-    socket tz stream 0666 system system
-    user system
-    group system
-    disabled
-
-service taa_service /system/bin/taadaemon
-    class core
-    socket taa stream 0666 system system
-    user system
-    group system
-    disabled
-
-on property:sys.tzdaemon=Ready
-    start taa_service
-
 on property:init.svc.tz_service=stopped
     setprop sys.tzdaemon NotReady
 
@@ -925,9 +907,6 @@ service battery_charger /sbin/healthd -c
 
 # Do not set any USB mode while charging
     setprop sys.usb.config charging
-
-on property:sys.tzdaemon=Ready
-    start taa_service
 
 # umount service
 service umount_service /system/bin/umount -D /preload
